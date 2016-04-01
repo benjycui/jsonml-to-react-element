@@ -29,25 +29,35 @@ function getChildren(node) {
   return node.slice(start);
 }
 
-function cond(data, conds) {
+function assign(target, source) {
+  for (let key in source) {
+    if (source.hasOwnProperty(key)) {
+      target[key] = source[key];
+    }
+  }
+  return target;
+}
+
+function cond(data, conds, index) {
   const pair = conds.find(([pred, _]) => {
     return pred(data);
   });
-  return pair[1](data);
+  return pair[1](data, index);
 }
 
 module.exports = function toReactComponent(converters = [], jsonml) {
   const defaultConverters = [
     [(node) => typeof node === 'string', (node) => node],
-    [(node) => getTagName(node) === 'innerHTML', (node) => {
+    [(node) => getTagName(node) === 'innerHTML', (node, index) => {
       return React.createElement('div', {
+        key: index,
         dangerouslySetInnerHTML: {__html: node[1]}
       });
     }],
-    [() => true, (node) => {
+    [() => true, (node, index) => {
       return React.createElement(
         getTagName(node),
-        getAttributes(node),
+        assign({ key: index }, getAttributes(node)),
         getChildren(node).map(innerToReactComponent)
       );
     }],
@@ -55,8 +65,8 @@ module.exports = function toReactComponent(converters = [], jsonml) {
 
   const mergeConverters = converters.concat(defaultConverters);
 
-  function innerToReactComponent(jsonml) {
-    return cond(jsonml, mergeConverters);
+  function innerToReactComponent(jsonml, index) {
+    return cond(jsonml, mergeConverters, index);
   }
 
   return cond(jsonml, mergeConverters);
