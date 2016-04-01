@@ -1,6 +1,6 @@
 {
   "name": "jsonml-to-react-component",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "To convert JsonML to React Component. ",
   "main": "index.js",
   "scripts": {
