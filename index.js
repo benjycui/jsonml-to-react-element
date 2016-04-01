@@ -50,9 +50,9 @@ module.exports = function toReactComponent(converters = [], jsonml) {
     [(node) => typeof node === 'string', (node) => node],
     [(node) => {
       const tagName = getTagName(node);
-      return tagName === 'hr' || tagName === 'br';
+      return tagName === 'hr' || tagName === 'br' || tagName === 'img';
     }, (node, index) => {
-      return React.createElement(getTagName(node), { key: index });
+      return React.createElement(getTagName(node), assign({ key: index }, getAttributes(node)));
     }],
     [(node) => getTagName(node) === 'innerHTML', (node, index) => {
       return React.createElement('div', {
