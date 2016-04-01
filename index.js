@@ -48,6 +48,9 @@ function cond(data, conds, index) {
 module.exports = function toReactComponent(converters = [], jsonml) {
   const defaultConverters = [
     [(node) => typeof node === 'string', (node) => node],
+    [(node) => getTagName(node) === 'hr', (node, index) => {
+      return React.createElement('hr', { key: index });
+    }],
     [(node) => getTagName(node) === 'innerHTML', (node, index) => {
       return React.createElement('div', {
         key: index,
