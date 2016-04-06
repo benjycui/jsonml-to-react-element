@@ -59,16 +59,14 @@ function toStyleObject(styleStr) {
   return style;
 }
 
+function isStandalone(tagName) {
+  return tagName === 'hr' || tagName === 'br' || tagName === 'img';
+}
+
 let cid = 0;
 module.exports = function toReactComponent(converters = [], jsonml) {
   const defaultConverters = [
     [(node) => typeof node === 'string', (node) => node],
-    [(node) => {
-      const tagName = getTagName(node);
-      return tagName === 'hr' || tagName === 'br' || tagName === 'img';
-    }, (node, index) => {
-      return React.createElement(getTagName(node), assign({ key: index }, getAttributes(node)));
-    }],
     [() => true, (node, index) => {
       const attrs = assign({ key: index }, getAttributes(node));
       if (attrs.class) {
@@ -78,10 +76,14 @@ module.exports = function toReactComponent(converters = [], jsonml) {
       if (attrs.style) {
         attrs.style = toStyleObject(attrs.style);
       }
+
+      const tagName = getTagName(node);
       return React.createElement(
-        getTagName(node),
+        tagName,
         attrs,
-        getChildren(node).map(innerToReactComponent)
+        isStandalone(tagName) ?
+          undefined :
+          getChildren(node).map(innerToReactComponent)
       );
     }],
   ];
