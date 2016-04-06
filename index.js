@@ -22,9 +22,10 @@ function getAttributes(node) {
 }
 
 function getChildren(node) {
-  if (typeof node === 'string') {
+  if (typeof node === 'string' || !Array.isArray(node)) {
     return [];
-  };
+  }
+
   const start = isObject(node[1]) ? 2 : 1;
   return node.slice(start);
 }
@@ -45,6 +46,20 @@ function cond(data, conds, index) {
   return pair[1](data, index);
 }
 
+function toCamelCase(property) {
+  return property.replace(/\-([a-z])/gi, '$1');
+}
+
+function toStyleObject(styleStr) {
+  const style = {};
+  styleStr.split(/;\s*/g).forEach((rule) => {
+    const kv = rule.split(/:\s*/g);
+    style[toCamelCase(kv[0])] = kv[1];
+  })
+  return style;
+}
+
+let cid = 0;
 module.exports = function toReactComponent(converters = [], jsonml) {
   const defaultConverters = [
     [(node) => typeof node === 'string', (node) => node],
@@ -54,16 +69,18 @@ module.exports = function toReactComponent(converters = [], jsonml) {
     }, (node, index) => {
       return React.createElement(getTagName(node), assign({ key: index }, getAttributes(node)));
     }],
-    [(node) => getTagName(node) === 'innerHTML', (node, index) => {
-      return React.createElement('div', {
-        key: index,
-        dangerouslySetInnerHTML: {__html: node[1]}
-      });
-    }],
     [() => true, (node, index) => {
+      const attrs = assign({ key: index }, getAttributes(node));
+      if (attrs.class) {
+        attrs.className = attrs.class;
+        attrs.class = undefined;
+      }
+      if (attrs.style) {
+        attrs.style = toStyleObject(attrs.style);
+      }
       return React.createElement(
         getTagName(node),
-        assign({ key: index }, getAttributes(node)),
+        attrs,
         getChildren(node).map(innerToReactComponent)
       );
     }],
@@ -75,5 +92,5 @@ module.exports = function toReactComponent(converters = [], jsonml) {
     return cond(jsonml, mergeConverters, index);
   }
 
-  return cond(jsonml, mergeConverters);
+  return cond(jsonml, mergeConverters, cid++);
 };
