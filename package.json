@@ -1,9 +1,12 @@
 {
   "name": "jsonml-to-react-component",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "To convert JsonML to React Component. ",
   "main": "lib/main.js",
   "entry": "./index.js",
+  "files": [
+    "lib"
+  ],
   "scripts": {
     "lint": "eslint --fix ./index.js",
     "pub": "atool-build -o lib && npm publish",
