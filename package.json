@@ -2,9 +2,11 @@
   "name": "jsonml-to-react-component",
   "version": "0.1.6",
   "description": "To convert JsonML to React Component. ",
-  "main": "index.js",
+  "main": "lib/main.js",
+  "entry": "./index.js",
   "scripts": {
     "lint": "eslint --fix ./index.js",
+    "pub": "atool-build -o lib && npm publish",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,10 +26,11 @@
   },
   "homepage": "https://github.com/benjycui/jsonml-to-react-component#readme",
   "devDependencies": {
+    "atool-build": "^0.6.6",
     "eslint": "^2.5.3",
     "eslint-config-egg": "^2.0.0"
   },
   "peerDependencies": {
-    "react": "~0.14.0"
+    "react": "~0.15.0"
   }
 }
