@@ -8,14 +8,12 @@
   ],
   "scripts": {
     "lint": "eslint --fix ./index.js",
-    "pub": "babel src --out-dir lib && npm publish",
+    "pub": "babel src --out-dir lib && npm publish && rm -rf lib",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "babel": {
     "presets": [
-      "es2015",
-      "react",
-      "stage-0"
+      "es2015"
     ]
   },
   "repository": {
@@ -28,7 +26,7 @@
     "component",
     "markdown"
   ],
-  "author": "Benjy Cui",
+  "author": "Benjy Cui <benjytrys@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/benjycui/jsonml-to-react-component/issues"
@@ -37,12 +35,10 @@
   "devDependencies": {
     "babel-cli": "^6.7.5",
     "babel-preset-es2015": "^6.1.18",
-    "babel-preset-react": "^6.1.18",
-    "babel-preset-stage-0": "^6.1.18",
-    "eslint": "^2.5.3",
+    "eslint": "^2.7.0",
     "eslint-config-egg": "^2.0.0"
   },
   "peerDependencies": {
-    "react": "~0.15.0"
+    "react": "^15.0.0"
   }
 }
