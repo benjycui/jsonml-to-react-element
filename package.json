@@ -40,5 +40,8 @@
   },
   "peerDependencies": {
     "react": "^15.0.0"
+  },
+  "dependencies": {
+    "jsonml.js": "^0.1.0"
   }
 }

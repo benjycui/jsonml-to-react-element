@@ -1,33 +1,12 @@
 'use strict';
 
 const React = require('react');
+const JsonML = require('jsonml.js/lib/utils');
 
 const coreToString = Object.prototype.toString;
 function isObject(object) {
   return coreToString.call(object)
     .toLowerCase() === '[object object]';
-}
-
-function getTagName(node) {
-  if (typeof node === 'string') return;
-  return node[0];
-}
-
-function getAttributes(node) {
-  if (typeof node === 'string' ||
-      !isObject(node[1])) {
-    return {};
-  }
-  return node[1];
-}
-
-function getChildren(node) {
-  if (typeof node === 'string' || !Array.isArray(node)) {
-    return [];
-  }
-
-  const start = isObject(node[1]) ? 2 : 1;
-  return node.slice(start);
 }
 
 function assign(target, source) {
@@ -64,11 +43,11 @@ function isStandalone(tagName) {
 }
 
 let cid = 0;
-module.exports = function toReactComponent(converters = [], jsonml) {
+module.exports = function toReactComponent(jsonml, converters = []) {
   const defaultConverters = [
     [(node) => typeof node === 'string', (node) => node],
     [() => true, (node, index) => {
-      const attrs = assign({ key: index }, getAttributes(node));
+      const attrs = assign({ key: index }, JsonML.getAttributes(node));
       if (attrs.class) {
         attrs.className = attrs.class;
         attrs.class = undefined;
@@ -77,13 +56,13 @@ module.exports = function toReactComponent(converters = [], jsonml) {
         attrs.style = toStyleObject(attrs.style);
       }
 
-      const tagName = getTagName(node);
+      const tagName = JsonML.getTagName(node);
       return React.createElement(
         tagName,
         attrs,
         isStandalone(tagName) ?
           undefined :
-          getChildren(node).map(innerToReactComponent)
+          JsonML.getChildren(node).map(innerToReactComponent)
       );
     }],
   ];
