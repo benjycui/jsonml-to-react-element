@@ -26,7 +26,10 @@ function cond(data, conds, index) {
 }
 
 function toCamelCase(property) {
-  return property.replace(/\-([a-z])/gi, '$1');
+  return property.replace(
+    /\-([a-z])/gi,
+    (letter) => letter.replace('-', '').toUpperCase()
+  );
 }
 
 function toStyleObject(styleStr) {
