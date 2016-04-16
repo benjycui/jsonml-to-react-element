@@ -14,7 +14,7 @@ Basic:
 
 ```js
 const ReactDOM = require('react-dom');
-const toReactComponent('jsonml-to-react-component');
+const toReactComponent = require('jsonml-to-react-component');
 
 const title = [
   'h1',
@@ -29,7 +29,7 @@ With converters:
 ```js
 const React = require('react');
 const ReactDOM = require('react-dom');
-const toReactComponent('jsonml-to-react-component');
+const toReactComponent = require('jsonml-to-react-component');
 
 const website = [
   'section',
