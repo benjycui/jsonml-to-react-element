@@ -3,12 +3,6 @@
 const React = require('react');
 const JsonML = require('jsonml.js/lib/utils');
 
-const coreToString = Object.prototype.toString;
-function isObject(object) {
-  return coreToString.call(object)
-    .toLowerCase() === '[object object]';
-}
-
 function assign(target, source) {
   for (let key in source) {
     if (source.hasOwnProperty(key)) {
@@ -19,8 +13,8 @@ function assign(target, source) {
 }
 
 function cond(data, conds, index) {
-  const pair = conds.find(([pred, _]) => {
-    return pred(data);
+  const pair = conds.find((converter) => {
+    return converter[0](data);
   });
   return pair[1](data, index);
 }
@@ -37,7 +31,7 @@ function toStyleObject(styleStr) {
   styleStr.split(/;\s*/g).forEach((rule) => {
     const kv = rule.split(/:\s*/g);
     style[toCamelCase(kv[0])] = kv[1];
-  })
+  });
   return style;
 }
 
