@@ -1,5 +1,10 @@
 # jsonml-to-react-component
 
+[![](https://img.shields.io/travis/benjycui/jsonml-to-react-component.svg?style=flat-square)](https://travis-ci.org/benjycui/jsonml-to-react-component)
+[![npm package](https://img.shields.io/npm/v/jsonml-to-react-component.svg?style=flat-square)](https://www.npmjs.org/package/jsonml-to-react-component)
+[![NPM downloads](http://img.shields.io/npm/dm/jsonml-to-react-component.svg?style=flat-square)](https://npmjs.org/package/jsonml-to-react-component)
+[![Dependency Status](https://david-dm.org/benjycui/jsonml-to-react-component.svg?style=flat-square)](https://david-dm.org/benjycui/jsonml-to-react-component)
+
 To convert JsonML to React Component.
 
 ## Installation
