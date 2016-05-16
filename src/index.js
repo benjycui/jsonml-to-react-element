@@ -2,62 +2,27 @@
 
 const React = require('react');
 const JsonML = require('jsonml.js/lib/utils');
-
-function assign(target, source) {
-  for (let key in source) {
-    if (source.hasOwnProperty(key)) {
-      target[key] = source[key];
-    }
-  }
-  return target;
-}
-
-function cond(data, conds, index) {
-  const pair = conds.find((converter) => {
-    return converter[0](data);
-  });
-  return pair[1](data, index);
-}
-
-function toCamelCase(property) {
-  return property.replace(
-    /\-([a-z])/gi,
-    (letter) => letter.replace('-', '').toUpperCase()
-  );
-}
-
-function toStyleObject(styleStr) {
-  const style = {};
-  styleStr.split(/;\s*/g).forEach((rule) => {
-    const kv = rule.split(/:\s*/g);
-    style[toCamelCase(kv[0])] = kv[1];
-  });
-  return style;
-}
-
-function isStandalone(tagName) {
-  return tagName === 'hr' || tagName === 'br' || tagName === 'img';
-}
+const utils = require('./utils');
 
 let cid = 0;
 module.exports = function toReactComponent(jsonml, converters = []) {
   const defaultConverters = [
     [(node) => typeof node === 'string', (node) => node],
     [() => true, (node, index) => {
-      const attrs = assign({ key: index }, JsonML.getAttributes(node));
+      const attrs = utils.assign({ key: index }, JsonML.getAttributes(node));
       if (attrs.class) {
         attrs.className = attrs.class;
-        attrs.class = undefined;
+        delete attrs.class;
       }
       if (attrs.style) {
-        attrs.style = toStyleObject(attrs.style);
+        attrs.style = utils.toStyleObject(attrs.style);
       }
 
       const tagName = JsonML.getTagName(node);
       return React.createElement(
         tagName,
         attrs,
-        isStandalone(tagName) ?
+        utils.isStandalone(tagName) ?
           undefined :
           JsonML.getChildren(node).map(innerToReactComponent)
       );
@@ -67,8 +32,8 @@ module.exports = function toReactComponent(jsonml, converters = []) {
   const mergeConverters = converters.concat(defaultConverters);
 
   function innerToReactComponent(jsonml, index) {
-    return cond(jsonml, mergeConverters, index);
+    return utils.cond(jsonml, mergeConverters, index);
   }
 
-  return cond(jsonml, mergeConverters, cid++);
+  return utils.cond(jsonml, mergeConverters, cid++);
 };
