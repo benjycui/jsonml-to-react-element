@@ -27,9 +27,9 @@ exports.assign = function assign(target, source) {
 };
 
 exports.cond = function cond(data, conds, index) {
-  const pair = conds.find((converter) => {
+  const pair = conds.filter((converter) => {
     return converter[0](data);
-  });
+  })[0];
   return pair[1](data, index);
 };
 
