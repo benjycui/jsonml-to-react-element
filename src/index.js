@@ -7,6 +7,17 @@ const utils = require('./utils');
 let cid = 0;
 module.exports = function toReactComponent(jsonml, converters = []) {
   const defaultConverters = [
+    [(node) => JsonML.getTagName(node) === 'style', (node, index) => {
+      const tagName = JsonML.getTagName(node);
+      const attrs = JsonML.getAttributes(node);
+      const styles = JsonML.getChildren(node)[0];
+      return React.createElemen(tagName, utils.assign({
+        key: index,
+        dangerouslySetInnerHTML: {
+          __html: styles,
+        },
+      }, attrs));
+    }],
     [(node) => typeof node === 'string', (node) => node],
     [() => true, (node, index) => {
       const attrs = utils.assign({ key: index }, JsonML.getAttributes(node));
