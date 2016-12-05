@@ -11,7 +11,7 @@ module.exports = function toReactComponent(jsonml, converters = []) {
       const tagName = JsonML.getTagName(node);
       const attrs = JsonML.getAttributes(node);
       const styles = JsonML.getChildren(node)[0];
-      return React.createElemen(tagName, utils.assign({
+      return React.createElement(tagName, utils.assign({
         key: index,
         dangerouslySetInnerHTML: {
           __html: styles,
