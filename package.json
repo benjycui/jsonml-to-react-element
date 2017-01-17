@@ -1,7 +1,7 @@
 {
-  "name": "jsonml-to-react-component",
-  "version": "0.2.6",
-  "description": "To convert JsonML to React Component. ",
+  "name": "jsonml-to-react-element",
+  "version": "1.0.0",
+  "description": "To convert JsonML to React element. ",
   "main": "lib/index.js",
   "files": [
     "lib"
@@ -9,9 +9,9 @@
   "scripts": {
     "lint": "eslint ./src ./test",
     "eslint-fix": "eslint --fix ./src ./test",
-    "babel": "babel src --out-dir lib",
-    "pub": "npm run babel && npm publish && rm -rf lib",
-    "test": "npm run babel && mocha && rm -rf lib"
+    "prepublish": "babel src --out-dir lib",
+    "postpublish": "rm -rf lib",
+    "test": "npm run prepublish && mocha && npm run postpublish"
   },
   "babel": {
     "presets": [
@@ -20,25 +20,25 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/benjycui/jsonml-to-react-component.git"
+    "url": "git+https://github.com/benjycui/jsonml-to-react-element.git"
   },
   "keywords": [
     "jsonml",
     "react",
-    "component",
+    "element",
     "markdown"
   ],
   "author": "Benjy Cui <benjytrys@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/benjycui/jsonml-to-react-component/issues"
+    "url": "https://github.com/benjycui/jsonml-to-react-element/issues"
   },
-  "homepage": "https://github.com/benjycui/jsonml-to-react-component#readme",
+  "homepage": "https://github.com/benjycui/jsonml-to-react-element#readme",
   "devDependencies": {
     "babel-cli": "^6.7.5",
     "babel-preset-es2015": "^6.1.18",
-    "eslint": "^2.7.0",
-    "eslint-config-egg": "^2.0.0",
+    "eslint": "latest",
+    "eslint-config-egg": "latest",
     "mocha": "^2.4.5",
     "react": "^15.0.0"
   },

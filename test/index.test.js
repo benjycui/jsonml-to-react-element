@@ -28,11 +28,11 @@ describe('jsonml-to-react-component', function() {
       'Hello world!',
     ];
 
-    assert.deepEqual(toReactComponent(node).props.style, { color: 'red'});
+    assert.deepEqual(toReactComponent(node).props.style, { color: 'red' });
   });
 
   it('should not add children to standalone tag', function() {
-    const node = ['hr'];
+    const node = [ 'hr' ];
     assert.strictEqual(toReactComponent(node).props.children, undefined);
   });
 });

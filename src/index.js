@@ -7,7 +7,7 @@ const utils = require('./utils');
 let cid = 0;
 module.exports = function toReactComponent(jsonml, converters = []) {
   const defaultConverters = [
-    [(node) => JsonML.getTagName(node) === 'style', (node, index) => {
+    [ node => JsonML.getTagName(node) === 'style', (node, index) => {
       const tagName = JsonML.getTagName(node);
       const attrs = JsonML.getAttributes(node);
       const styles = JsonML.getChildren(node)[0];
@@ -17,9 +17,9 @@ module.exports = function toReactComponent(jsonml, converters = []) {
           __html: styles,
         },
       }, attrs));
-    }],
-    [(node) => typeof node === 'string', (node) => node],
-    [() => true, (node, index) => {
+    } ],
+    [ node => typeof node === 'string', node => node ],
+    [ () => true, (node, index) => {
       const attrs = utils.assign({ key: index }, JsonML.getAttributes(node));
       if (attrs.class) {
         attrs.className = attrs.class;
@@ -37,7 +37,7 @@ module.exports = function toReactComponent(jsonml, converters = []) {
           undefined :
           JsonML.getChildren(node).map(innerToReactComponent)
       );
-    }],
+    } ],
   ];
 
   const mergeConverters = converters.concat(defaultConverters);
