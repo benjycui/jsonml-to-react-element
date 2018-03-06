@@ -30,7 +30,7 @@ exports.cond = function cond(data, conds, index) {
   const pair = conds.filter(converter => {
     return converter[0](data);
   })[0];
-  return pair[1](data, index);
+  return pair[1](data, index, conds);
 };
 
 exports.isStandalone = function isStandalone(tagName) {

@@ -35,6 +35,17 @@ describe('utils', function() {
     });
   });
 
+  describe('#cond', function() {
+    it('should pass all conds as third argument', () => {
+      let arg = null;
+      const conds = [
+        [() => true, (a, b, c) => arg = c],
+      ];
+      utils.cond({}, conds, 0);
+      assert.strictEqual(arg, conds);
+    });
+  });
+
   describe('#isStandalone', function() {
     it('should works', function() {
       assert.ok(utils.isStandalone('hr'));
