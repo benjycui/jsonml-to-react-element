@@ -33,6 +33,7 @@ exports.cond = function cond(data, conds, index) {
   return pair[1](data, index, conds);
 };
 
+const standaloneTags = ['hr', 'br', 'img', 'input', 'col'];
 exports.isStandalone = function isStandalone(tagName) {
-  return tagName === 'hr' || tagName === 'br' || tagName === 'img';
+  return standaloneTags.indexOf(tagName) !== -1;
 };
