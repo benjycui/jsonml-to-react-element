@@ -28,6 +28,12 @@ module.exports = function toReactComponent(jsonml, converters = []) {
       if (attrs.style) {
         attrs.style = utils.toStyleObject(attrs.style);
       }
+      if (attrs.src) {
+        attrs.src = utils.sanitizeUrl(attrs.src);
+      }
+      if (attrs.href) {
+        attrs.href = utils.sanitizeUrl(attrs.href);
+      }
 
       const tagName = JsonML.getTagName(node);
       return React.createElement(

@@ -55,3 +55,7 @@ const standaloneTags = [
 exports.isStandalone = function isStandalone(tagName) {
   return standaloneTags.indexOf(tagName) !== -1;
 };
+
+exports.sanitizeUrl = function sanitizeUrl(url) {
+  return url.replace(/javascript:\/\//gi, '');
+};

@@ -35,4 +35,12 @@ describe('jsonml-to-react-component', function() {
     const node = [ 'hr' ];
     assert.strictEqual(toReactComponent(node).props.children, undefined);
   });
+
+  it('should handle XSS in src/href', function() {
+    const img = ['img', { src: 'javascript://any' }];
+    assert.strictEqual(toReactComponent(img).props.src, 'any');
+
+    const link = ['a', { href: 'javascript://any' }];
+    assert.strictEqual(toReactComponent(link).props.href, 'any');
+  });
 });
