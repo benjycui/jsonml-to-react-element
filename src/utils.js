@@ -57,5 +57,5 @@ exports.isStandalone = function isStandalone(tagName) {
 };
 
 exports.sanitizeUrl = function sanitizeUrl(url) {
-  return url.replace(/^\s*(javascript|vbscript):\/\//gi, '');
+  return url.replace(/^\s*(javascript|vbscript):/i, '');
 };
