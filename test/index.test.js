@@ -43,4 +43,9 @@ describe('jsonml-to-react-component', function() {
     const link = ['a', { href: 'javascript://any' }];
     assert.strictEqual(toReactComponent(link).props.href, '//any');
   });
+
+  it('should reactify attrs', function() {
+    const td = ['td', { colspan: 2 }, 'Hello world!'];
+    assert.strictEqual(toReactComponent(td).props.colSpan, 2);
+  })
 });

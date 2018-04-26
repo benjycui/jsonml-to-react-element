@@ -1,5 +1,7 @@
 'use strict';
 
+const attrsMap = require('./attrsMap');
+
 function toCamelCase(property) {
   return property.replace(
     /\-([a-z])/gi,
@@ -58,4 +60,16 @@ exports.isStandalone = function isStandalone(tagName) {
 
 exports.sanitizeUrl = function sanitizeUrl(url) {
   return url.replace(/^\s*(javascript|vbscript):/i, '');
+};
+
+exports.reactifyAttrs = function reactifyAttrs(attrs) {
+  const reactifiedAttrs = Object.assign({}, attrs);
+  Object.keys(reactifiedAttrs).forEach(name => {
+    if (attrsMap[name]) {
+      const value = reactifiedAttrs[name];
+      delete reactifiedAttrs[name];
+      reactifiedAttrs[attrsMap[name]] = value;
+    }
+  });
+  return reactifiedAttrs;
 };

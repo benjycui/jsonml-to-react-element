@@ -38,7 +38,7 @@ module.exports = function toReactComponent(jsonml, converters = []) {
       const tagName = JsonML.getTagName(node);
       return React.createElement(
         tagName,
-        attrs,
+        utils.reactifyAttrs(attrs),
         utils.isStandalone(tagName) ?
           undefined :
           JsonML.getChildren(node).map(innerToReactComponent)
