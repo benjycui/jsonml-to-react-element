@@ -59,7 +59,7 @@ exports.isStandalone = function isStandalone(tagName) {
 };
 
 exports.sanitizeUrl = function sanitizeUrl(url) {
-  return url.replace(/^\s*(javascript|vbscript):/i, '');
+  return url ? url.replace(/^\s*(javascript|vbscript):/i, '') : url;
 };
 
 exports.reactifyAttrs = function reactifyAttrs(attrs) {
