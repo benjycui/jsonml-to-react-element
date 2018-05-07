@@ -11,6 +11,9 @@ function toCamelCase(property) {
 exports.toCamelCase = toCamelCase;
 
 exports.toStyleObject = function toStyleObject(styleStr) {
+  if (typeof styleStr !== 'string') {
+    return styleStr;
+  }
   const style = {};
   styleStr.split(/;\s*/g).forEach(rule => {
     const kv = rule.split(/:\s*/g);

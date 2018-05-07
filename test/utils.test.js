@@ -21,6 +21,11 @@ describe('utils', function() {
         color: 'red',
       });
     });
+
+    it('should not convert if styleStr is not a string', function() {
+      const style = {};
+      assert.deepEqual(utils.toStyleObject(style), {});
+    });
   });
 
   describe('#assign', function() {
